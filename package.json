@@ -4,12 +4,12 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "vite build --config vite.config.lib.ts",
-    "dev": "wrangler dev",
-    "start": "yarn build && yarn dev",
     "lint": "biome lint .",
     "format": "biome format --write .",
-    "check": "biome check --write ."
+    "check": "biome check --write .",
+    "build": "vite build --config vite.config.lib.ts",
+    "dev": "wrangler dev",
+    "start": "yarn build && yarn dev"
   },
   "dependencies": {
     "cheerio": "^1.2.0",
