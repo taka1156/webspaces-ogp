@@ -72,18 +72,20 @@ export class OgpCard extends LitElement {
 			flex: 0 0 96px;
 			background: var(--ogp-image-bg);
 			overflow: hidden;
-			padding: 10px;
 		}
 
-		.card.large .image {
+		a.card.large .image {
 			flex: none;
 			width: 100%;
 			aspect-ratio: 1.91 / 1;
 		}
 
-		.card:not(.large) .image {
+		a.card:not(.large) .image {
+			flex: 0 0 96px;
 			width: 96px;
 			height: 96px;
+			padding: 10px;
+			box-sizing: border-box;
 		}
 
 		.image img {
@@ -98,7 +100,7 @@ export class OgpCard extends LitElement {
 			flex-direction: column;
 			justify-content: center;
 			gap: 4px;
-			padding: 10px 14px;
+			padding: 12px 14px;
 			min-width: 0;
 		}
 
@@ -191,6 +193,9 @@ export class OgpCard extends LitElement {
 	@state()
 	accessor error: string | null = null;
 
+	@state()
+	accessor isImageLarge = false;
+
 	private abortController?: AbortController;
 
 	willUpdate(changed: PropertyValues<this>) {
@@ -208,6 +213,7 @@ export class OgpCard extends LitElement {
 		this.abortController?.abort();
 		this.ogp = null;
 		this.error = null;
+		this.isImageLarge = false;
 
 		if (!this.url || !this.backendUrl) {
 			this.loading = false;
@@ -238,6 +244,25 @@ export class OgpCard extends LitElement {
 		}
 	}
 
+	private handleImageLoad(e: Event) {
+		const img = e.target as HTMLImageElement;
+		if (!img) return;
+
+		const width = img.naturalWidth;
+		const height = img.naturalHeight;
+
+		// twitter:cardの設定があれば、優先して大きいかどうかを判定する
+		if (this.ogp && this.ogp.cardType === "summary_large_image") {
+			this.isImageLarge = true;
+			return;
+		}
+
+		// 例: 横幅が300px以上あり、かつ「横長の比率（アスペクト比 1.2 以上）」なら大きいと判定
+		if (width >= 300 && width / height >= 1.2) {
+			this.isImageLarge = true;
+		}
+	}
+
 	private get hostname(): string {
 		if (!this.ogp?.url) return "";
 		try {
@@ -258,7 +283,7 @@ export class OgpCard extends LitElement {
 
 		if (!this.ogp?.url) return nothing;
 
-		const isLarge = this.ogp.cardType === "summary_large_image";
+		const isLarge = this.isImageLarge;
 
 		return html`
 			<a
@@ -271,7 +296,12 @@ export class OgpCard extends LitElement {
 					this.ogp.image
 						? html`
 							<div class="image">
-								<img src=${this.ogp.image} alt="" loading="lazy" />
+								<img 
+									src=${this.ogp.image} 
+									alt="" 
+									loading="lazy" 
+									@load=${this.handleImageLoad}
+								/>
 							</div>
 						`
 						: nothing
