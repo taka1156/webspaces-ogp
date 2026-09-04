@@ -1,16 +1,30 @@
 {
-  "name": "ogp-monorepo",
+  "name": "webspaces-ogp",
+  "version": "0.0.1",
   "private": true,
+  "type": "module",
   "scripts": {
-    "dev": "turbo run dev",
-    "build": "turbo run build",
+    "build": "vite build --config vite.config.lib.ts",
+    "dev": "wrangler dev",
+    "start": "yarn build && yarn dev",
     "lint": "biome lint .",
     "format": "biome format --write .",
     "check": "biome check --write ."
   },
-  "devDependencies": {
-    "@biomejs/biome": "^1.9.4",
-    "turbo": "^2.10.12"
+  "dependencies": {
+    "cheerio": "^1.2.0",
+    "hono": "^4.13.5"
   },
-  "packageManager": "pnpm@9.15.4"
+  "peerDependencies": {
+    "lit": "^3.1.0"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^2.5.12",
+    "@types/node": "^26.4.1",
+    "lit": "^3.3.3",
+    "typescript": "^5.9.3",
+    "vite": "^8.2.2",
+    "vite-plugin-dts": "^4.5.4",
+    "wrangler": "4.129.0"
+  }
 }

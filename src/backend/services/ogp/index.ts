@@ -2,7 +2,8 @@ import * as cheerio from "cheerio";
 
 export const ogpParser = async (targetUrl: string) => {
 	try {
-		const res = await fetch(targetUrl, {
+		const url = decodeURIComponent(targetUrl);
+		const res = await fetch(url, {
 			method: "GET",
 			headers: {
 				"Content-Type": "text/html; charset=utf-8",
@@ -40,7 +41,7 @@ export const ogpParser = async (targetUrl: string) => {
 		};
 
 		return ogp;
-	} catch (e) {
+	} catch (_) {
 		return { error: "Failed to retrieve OGP" };
 	}
 };

@@ -3,9 +3,7 @@ FROM node:24-slim
 WORKDIR /workspace
 
 ENV TZ=Asia/Tokyo \
-    DEBIAN_FRONTEND=noninteractive \
-    PNPM_HOME="/pnpm" \
-    PATH="/pnpm:$PATH"
+    DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
     bash \

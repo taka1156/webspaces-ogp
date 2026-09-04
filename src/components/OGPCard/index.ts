@@ -1,4 +1,4 @@
-import { LitElement, html, css, nothing, type PropertyValues } from "lit";
+import { css, html, LitElement, nothing, type PropertyValues } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
 
 export interface OgpData {
@@ -77,7 +77,6 @@ export class OgpCard extends LitElement {
 		a.card.large .image {
 			flex: none;
 			width: 100%;
-			aspect-ratio: 1.91 / 1;
 		}
 
 		a.card:not(.large) .image {
@@ -225,7 +224,7 @@ export class OgpCard extends LitElement {
 		this.loading = true;
 
 		try {
-			const endpoint = new URL(this.backendUrl);
+			const endpoint = new URL(this.backendUrl, window.location.href);
 			endpoint.searchParams.set("url", this.url);
 
 			const res = await fetch(endpoint, { signal: controller.signal });

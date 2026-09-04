@@ -1,6 +1,7 @@
 import { Hono } from "hono";
 import { cors } from "hono/cors";
 import { ogpParser } from "./services/ogp";
+import { SampleOGP } from "./services/sample";
 
 type Bindings = {
 	ORIGIN_URL_DEV: string;
@@ -10,19 +11,24 @@ type Bindings = {
 const app = new Hono<{ Bindings: Bindings }>();
 
 // /api/* のアクセスに対してミドルウェアを設定
-app.use("/api/*", async (c, next) => {
+app.use("*", async (c, next) => {
 	const corsMiddleware = cors({
 		origin: [c.env.ORIGIN_URL_DEV, c.env.ORIGIN_URL_PROD],
-		allowMethods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"], // 必要に応じて追加
+		allowMethods: ["GET"], // 必要に応じて追加
 	});
 
 	return corsMiddleware(c, next);
 });
 
-app.get("/api/health", (c) => {
+app.get("/health", (c) => {
 	return c.json({
 		status: "server is running",
 	});
+});
+
+app.get("/sample", (c) => {
+	const sample = SampleOGP();
+	return c.html(sample);
 });
 
 app.get("/api/ogp", async (c) => {

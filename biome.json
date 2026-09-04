@@ -1,0 +1,18 @@
+{
+	"$schema": "https://biomejs.dev/schemas/2.5.12/schema.json",
+	"files": {
+		"ignoreUnknown": true,
+		"includes": [
+			"src/**/*.ts",
+			"src/**/*.tsx",
+			"vite.config.lib.ts",
+			"wrangler.jsonc",
+			"package.json"
+		]
+	},
+	"formatter": {
+		"enabled": true,
+		"indentStyle": "tab",
+		"lineWidth": 100
+	}
+}

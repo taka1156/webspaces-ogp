@@ -1,0 +1,18 @@
+{
+	"$schema": "node_modules/wrangler/config-schema.json",
+	"name": "ogp-backend-api",
+	"main": "src/backend/index.ts",
+	"compatibility_date": "2026-09-04",
+	"compatibility_flags": ["nodejs_compat"],
+	"assets": {
+		"directory": "./src/backend/assets",
+		"binding": "ASSETS"
+	},
+	"observability": {
+		"enabled": true
+	},
+	"dev": {
+		"port": 3000,
+		"ip": "0.0.0.0"
+	}
+}
