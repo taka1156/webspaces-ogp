@@ -1,0 +1,23 @@
+{
+  "$schema": "https://raw.githubusercontent.com/microsoft/vscode/main/extensions/configuration-editing/schemas/devContainer.vscode.schema.json",
+  "name": "webspaces-ogp",
+  "service": "app",
+  "workspaceFolder": "/workspace",
+  "dockerComposeFile": "docker-compose.yml",
+  "postCreateCommand": "pnpm install",
+  "customizations": {
+    "vscode": {
+      "settings": {
+        "terminal.integrated.defaultProfile.linux": "bash",
+        "editor.defaultFormatter": "biomejs.biome",
+        "editor.formatOnSave": true
+      },
+      "extensions": [
+        "MS-CEINTL.vscode-language-pack-ja",
+        "streetsidesoftware.code-spell-checker",
+        "usernamehw.errorlens",
+        "biomejs.biome"
+      ]
+    }
+  }
+}

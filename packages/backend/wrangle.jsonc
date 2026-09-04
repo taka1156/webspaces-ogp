@@ -1,0 +1,16 @@
+{
+    "$schema": "node_modules/wrangler/config-schema.json",
+    "name": "ogp-backend-api",
+    "main": "src/index.ts",
+    "compatibility_date": "2026-09-04",
+    "compatibility_flags": [
+        "nodejs_compat"
+    ],
+    "observability": {
+        "enabled": true
+    },
+    "dev": {
+        "port": 3000,
+        "ip": "0.0.0.0"
+    }
+}

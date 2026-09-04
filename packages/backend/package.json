@@ -1,0 +1,17 @@
+{
+  "name": "@repo/backend",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler dev --ip 0.0.0.0 --port 3000 src/index.ts",
+    "deploy": "wrangler deploy"
+  },
+  "dependencies": {
+    "cheerio": "^1.2.0",
+    "hono": "^4.13.5"
+  },
+  "devDependencies": {
+    "wrangler": "4.129.0"
+  }
+}
