@@ -1,55 +1,118 @@
 # Webspaces OGP
 
-## プロジェクト概要
-Webspaces OGP はメタ情報（OGP）を扱うサービスのモノレポです。
-- `packages/backend`: OGP を取得・整形するバックエンドサービス
-- `packages/frontend`: OGP 情報を表示するフロントエンド（Vite）
+Webspaces OGP は、URL から OGP/Twitter Card 情報を取得して表示するサンプルアプリです。
+Worker の API と、Lit ベースの Web Component を組み合わせて構成されています。
+
+## 概要
+
+- バックエンド: Cloudflare Workers + Hono
+- API: OGP 取得用の `/api/ogp`
+- コンポーネント: `ogp-card` Web Component
+- アセット配信: Wrangler の static assets を利用
+- ビルド: Vite でライブラリを生成
 
 ## 必要環境
-- Node.js (推奨: 18+)
-- pnpm
-- GNU Make（リポジトリの Makefile を利用する場合）
+
+- Node.js 18+
+- Yarn
+- Wrangler
 
 ## セットアップ
-ルートで依存関係をインストールします。
+
+依存関係をインストールします。
 
 ```bash
-pnpm install
+yarn install
 ```
 
-バックエンド開発サーバーはリポジトリの Makefile にコマンドが定義されています（例: `make backend-dev`）。
+## 開発コマンド
 
 ```bash
-make backend-dev
+yarn build
 ```
 
-フロントエンドは `packages/frontend` に移動して、パッケージのスクリプトに従って起動してください（一般的には `pnpm run dev`）。
+`vite.config.lib.ts` を使って、`src/components/OGPCard/index.ts` からライブラリをビルドします。
+生成物は `src/backend/assets/lib/` 配下に出力されます。
 
 ```bash
-cd packages/frontend
-pnpm install
-pnpm run dev
+yarn dev
 ```
 
-- もし別のスクリプト名がある場合は `packages/frontend/package.json` を参照してください。
+`wrangler dev` で Worker を起動します。
+`localhost:3000` でサンプルページにアクセスできます。
 
-## 開発の流れ
-- バックエンド: `packages/backend/src` を編集してください。主要エントリは `packages/backend/src/index.ts`。
-- フロントエンド: `packages/frontend/src` にコンポーネントを追加／編集してください。例: `packages/frontend/src/components/OGPCard`。
+```bash
+yarn start
+```
 
-ローカルで動かして動作を確認し、変更をコミットしてください。
+`yarn build && yarn dev` をまとめて実行します。
+
+## API
+
+### GET /health
+
+サーバー状態を返します。
+
+### GET /api/ogp?url=https://example.com
+
+対象 URL の OGP 情報を取得して JSON で返します。
+
+戻り値の例:
+
+```json
+{
+  "title": "Example",
+  "description": "Example description",
+  "image": "https://example.com/ogp.png",
+  "url": "https://example.com",
+  "cardType": "summary_large_image"
+}
+```
+
+## サンプルページ
+
+`/sample` で OGP カードのデモが表示されます。
+サンプル側では `ogp-card` を使用し、バックエンド API を叩いて情報を取得します。
 
 ## プロジェクト構成
+
+```text
+.
+├── src/
+│   ├── backend/
+│   │   ├── assets/
+│   │   │   └── lib/
+│   │   │       ├── ogp-card.es.js
+│   │   │       └── ogp-card.umd.js
+│   │   ├── services/
+│   │   │   ├── ogp/
+│   │   │   │   └── index.ts
+│   │   │   └── sample/
+│   │   │       └── index.tsx
+│   │   └── index.ts
+│   ├── components/
+│   │   └── OGPCard/
+│   │       └── index.ts
+│   └── vite-env.d.ts
+├── biome.json
+├── package.json
+├── tsconfig.json
+├── vite.config.lib.ts
+├── wrangler.jsonc
+├── README.md
+└── yarn.lock
 ```
-packages/
-  backend/
-    src/
-      index.ts
-      services/ogp/index.ts
-  frontend/
-    index.html
-    src/
-      main.ts
-      components/OGPCard/
-```
+
+## アセット配信について
+
+`src/components/OGPCard/index.ts` をライブラリ化して、`vite build` で `src/backend/assets/lib/` に出力します。
+その後、Wrangler の asset 配信で `/assets/lib/ogp-card.es.js` を公開します。
+
+この構成により、Worker 本体は API 処理に集中し、静的 JavaScript は軽量に配信できます。
+
+## 注意点
+
+- `ogp-card.es.js` は ESM 形式のため、HTML 側では `type="module"` で読み込む必要があります。
+- OGP 取得先のサイトによっては CORS 制約やビューポイントの差異があり、取得できない場合があります。
+- API で受け取る URL はエンコード済みの値として扱うようにしてください。
 
