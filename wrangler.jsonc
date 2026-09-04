@@ -10,7 +10,7 @@
         "command": "yarn build",
     },
     "assets": {
-        "directory": "./src/backend/assets",
+        "directory": "./dist/backend/assets",
         "binding": "ASSETS"
     },
     "observability": {
