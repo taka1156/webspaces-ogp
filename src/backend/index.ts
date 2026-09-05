@@ -10,18 +10,18 @@ type Bindings = {
 
 const app = new Hono<{ Bindings: Bindings }>();
 
-// /api/* のアクセスに対してミドルウェアを設定
 app.use("*", async (c, next) => {
 	const corsMiddleware = cors({
 		origin: [c.env.ORIGIN_URL_DEV, c.env.ORIGIN_URL_PROD],
-		allowMethods: ["GET"], // 必要に応じて追加
+		allowMethods: ["GET"],
 	});
 
 	return corsMiddleware(c, next);
 });
 
 app.get("*", async (c) => {
-	return c.env.ASSETS.fetch(c.req.raw);
+	const res = await c.env.ASSETS.fetch(c.req.raw);
+	return new Response(res.body, res);
 });
 
 app.get("/health", (c) => {
