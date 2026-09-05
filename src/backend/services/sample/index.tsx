@@ -18,14 +18,14 @@ export const SampleOGP = () => {
 			</head>
 
 			<body>
-				<main style="max-width: 600px; margin: 40px auto; font-family: sans-serif;">
+				<main style="max-width: 600px; margin: 40px auto;">
 					<h1>OGP Card</h1>
 
-					{urls.map((url) => (
-						<div style="padding: 10px;" key={url}>
-							<ogp-card backend-url="/api/ogp" url={url} />
-						</div>
-					))}
+					<div style="display: flex; flex-direction: column; align-items: center; gap: 10px;">
+						{urls.map((url) => (
+							<ogp-card key={url} backend-url="/api/ogp" url={url} />
+						))}
+					</div>
 				</main>
 			</body>
 		</html>
