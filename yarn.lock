@@ -186,6 +186,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@cloudflare/workers-types@npm:^5.20260905.1":
+  version: 5.20260905.1
+  resolution: "@cloudflare/workers-types@npm:5.20260905.1"
+  checksum: 10c0/398d4a1e0b39eb1444995c0d853e543508ee17ab9d8450ffc0d80e71045f7a51fc5526cd60ad000a904997dca1a7e1b2f1e1f8f0af2779519aa33305e9c324ec
+  languageName: node
+  linkType: hard
+
 "@cspotcode/source-map-support@npm:0.8.1":
   version: 0.8.1
   resolution: "@cspotcode/source-map-support@npm:0.8.1"
@@ -2892,6 +2899,7 @@ __metadata:
   resolution: "webspaces-ogp@workspace:."
   dependencies:
     "@biomejs/biome": "npm:^2.5.12"
+    "@cloudflare/workers-types": "npm:^5.20260905.1"
     "@lit-labs/rollup-plugin-minify-html-literals": "npm:^0.2.0"
     "@types/node": "npm:^26.4.1"
     cheerio: "npm:^1.2.0"

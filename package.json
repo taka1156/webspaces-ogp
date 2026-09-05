@@ -20,6 +20,7 @@
   },
   "devDependencies": {
     "@biomejs/biome": "^2.5.12",
+    "@cloudflare/workers-types": "^5.20260905.1",
     "@lit-labs/rollup-plugin-minify-html-literals": "^0.2.0",
     "@types/node": "^26.4.1",
     "lit": "^3.3.3",
