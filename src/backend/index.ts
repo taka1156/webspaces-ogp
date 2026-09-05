@@ -20,6 +20,10 @@ app.use("*", async (c, next) => {
 	return corsMiddleware(c, next);
 });
 
+app.get("*", async (c) => {
+	return c.env.ASSETS.fetch(c.req.raw);
+});
+
 app.get("/health", (c) => {
 	return c.json({
 		status: "server is running",
