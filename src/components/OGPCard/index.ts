@@ -70,13 +70,13 @@ export class OgpCard extends LitElement {
 
 		.image {
 			flex: 0 0 96px;
-			background: var(--ogp-image-bg);
 			overflow: hidden;
 		}
 
 		a.card.large .image {
 			flex: none;
 			width: 100%;
+			aspect-ratio: 16 / 9;
 		}
 
 		a.card:not(.large) .image {
@@ -90,7 +90,7 @@ export class OgpCard extends LitElement {
 		.image img {
 			width: 100%;
 			height: 100%;
-			object-fit: cover;
+			object-fit: contain;
 			display: block;
 		}
 
