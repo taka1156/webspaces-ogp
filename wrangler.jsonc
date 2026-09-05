@@ -1,6 +1,6 @@
 {
     "$schema": "node_modules/wrangler/config-schema.json",
-    "name": "ogp-backend-api",
+    "name": "webspaces-ogp",
     "main": "src/backend/index.ts",
     "compatibility_date": "2026-09-04",
     "compatibility_flags": [
