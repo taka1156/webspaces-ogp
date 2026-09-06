@@ -26,5 +26,9 @@
     "exclude": [
         "node_modules",
         "**/assets/**"
+    ],
+    "typeRoots": [
+        "./node_modules/@types",
+        "./src/types"
     ]
 }

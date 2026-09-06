@@ -1,6 +1,6 @@
 import * as cheerio from "cheerio";
 
-export const ogpParser = async (targetUrl: string) => {
+export const ogpParser = async (targetUrl: string): Promise<OGP> => {
 	try {
 		const url = decodeURIComponent(targetUrl);
 		const res = await fetch(url, {
@@ -14,7 +14,7 @@ export const ogpParser = async (targetUrl: string) => {
 
 		const $ = cheerio.load(html);
 
-		const ogp = {
+		const ogp: OGP = {
 			title:
 				$('meta[property="og:title"]').attr("content") ||
 				$('meta[name="twitter:title"]').attr("content") ||
@@ -38,10 +38,18 @@ export const ogpParser = async (targetUrl: string) => {
 				targetUrl,
 
 			cardType: $('meta[name="twitter:card"]').attr("content") || "summary",
+			error: "",
 		};
 
 		return ogp;
 	} catch (_) {
-		return { error: "Failed to retrieve OGP" };
+		return {
+			title: "",
+			description: "",
+			image: "",
+			url: "",
+			cardType: "",
+			error: "Failed to retrieve OGP",
+		};
 	}
 };

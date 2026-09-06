@@ -17,6 +17,9 @@
     "observability": {
         "enabled": true
     },
+    "cache": {
+        "enabled": true
+    },
     "dev": {
         "port": 3000,
         "ip": "0.0.0.0"
