@@ -12,14 +12,18 @@ type Bindings = {
 
 const app = new Hono<{ Bindings: Bindings }>();
 
-app.use("*", async (c, next) => {
-	const corsMiddleware = cors({
-		origin: [c.env.ORIGIN_URL_DEV, c.env.ORIGIN_URL_PROD],
-		allowMethods: ["GET"],
-	});
-
-	return corsMiddleware(c, next);
-});
+app.use(
+	"*",
+	cors({
+		origin: (origin, c) => {
+			if (origin.endsWith(".taka1156.site") || origin.startsWith(c.env.ORIGIN_URL_DEV)) {
+				return origin;
+			}
+			return c.env.ORIGIN_URL_PROD;
+		},
+		allowMethods: ["GET", "OPTIONS"],
+	}),
+);
 
 app.get("/health", (c) => {
 	return c.json({
